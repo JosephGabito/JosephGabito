@@ -1,4 +1,7 @@
-# **Joseph Gabito**  
+# 👋 Hey there, I'm Joseph
+
+I'm a software engineer with 16+ years of formal experience (20+ if you include all those self-inflicted all-nighters) turning WordPress plugins from spaghetti nightmares into clean, testable masterpieces. I specialize in Domain-Driven Design, Clean Architecture, and Event Sourcing, basically, giving legacy code the therapy it desperately needs.
+
 ![Header](https://github.com/user-attachments/assets/d26e0c0e-04d7-4dbb-8bb5-8195729b8692)
 
 #### <small> I've seen WordPress plugins with better architecture than this... said no one ever." (drops mic made of recycled global $wpdb objects) 🎤 </small>
