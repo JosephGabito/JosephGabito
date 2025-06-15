@@ -628,7 +628,7 @@ class User_Registration_Workflow {
 
 > *"WordPress isn't the problem. Your architecture is. Let's fix it."*  
 
-**P.S.** I have a formal CS degree, so my approach is structured and based on tried-and-true patterns, not cargo cult programming.
+**P.S.** My approach is grounded in structured, proven software design patterns, drawing from both formal education and years of hands-on experience. I'm passionate about maintainable, scalable code, no matter where the lesson comes from.
 
 **Warning:** Side effects may include pride in your codebase, the ability to deploy on Fridays, and code so clean it sparkles. ✨
 
