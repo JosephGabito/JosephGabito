@@ -8,10 +8,6 @@ I'm a software engineer with 16+ years of formal experience (20+ if you include 
 
 > **"Your `functions.php` file called. It said: 'Kill me.'"**
 
-👋 **Hey there, I'm Joseph**  
-
-I'm a software engineer with **16+ years of formal experience** (20+ if you include all those self-inflicted all-nighters) turning WordPress plugins from spaghetti nightmares into clean, testable masterpieces. I specialize in **Domain-Driven Design**, **Clean Architecture**, and **Event Sourcing**, basically, giving legacy code the therapy it desperately needs.
-
 ---
 
 ## **🍽️ Case Studies: From Dumpster Fire to Michelin Star**
