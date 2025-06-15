@@ -1,7 +1,7 @@
 # **Joseph Gabito**  
-#### <small> I've seen WordPress plugins with better architecture than this... said no one ever." (drops mic made of recycled global $wpdb objects) 🎤 </small>
-![Header] ![ChatGPT Image Jun 15, 2025, 05_23_57 PM 2](https://github.com/user-attachments/assets/d26e0c0e-04d7-4dbb-8bb5-8195729b8692)
+![Header](https://github.com/user-attachments/assets/d26e0c0e-04d7-4dbb-8bb5-8195729b8692)
 
+#### <small> I've seen WordPress plugins with better architecture than this... said no one ever." (drops mic made of recycled global $wpdb objects) 🎤 </small>
 
 > **"Your `functions.php` file called. It said: 'Kill me.'"**
 
