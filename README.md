@@ -10,8 +10,8 @@ I'm a software engineer with 16+ years of formal experience (20+ if you include 
 
 ---
 
-#### Disclaimer: 
-These patterns are for when your plugin needs its own DevOp and a support hotline. If you're just making a straight forward widget, maybe don't summon the Abstract Factory Dependency Injection Overlords for something solved by add_action('init', 'my_cool_function').
+💡 Architectural Disclaimer
+> These patterns are for when your plugin needs its own DevOp and a support hotline. If you're just making a straight forward widget, maybe don't summon the Abstract Factory Dependency Injection Overlords for something solved by add_action('init', 'my_cool_function').
 
 ## **🍽️ Case Studies: From Dumpster Fire to Michelin Star**
 
@@ -440,8 +440,6 @@ add_filter('subscription_pricing_calculated', function($pricing_data, $user_id, 
 ✅ **Clear extension points** - third-parties know exactly where to hook  
 ✅ **Debuggable** - pricing logic traceable without filter archaeology  
 ✅ **Testable** - mock repositories, test business rules in isolation
-
-> **💡 Architectural Disclaimer:** These patterns are for complex, multi-feature plugins and enterprise applications. If you're building a simple contact form or basic widget, WordPress's standard approaches work perfectly fine! The key is matching architectural complexity to project scope - don't over-engineer a screwdriver when you need a screwdriver, but don't use a screwdriver to build a skyscraper. 🏗️
 
 **Results:** ✅ **Reduced filters from 847 to 12** ✅ **50% faster debugging** ✅ **Business logic testable without WordPress**
 
