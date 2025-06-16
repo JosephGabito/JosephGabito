@@ -521,9 +521,9 @@ class Subscription_Integration {
 **Results:** ✅ **Reduced filters from 847 to 12** ✅ **50% faster debugging** ✅ **Business logic testable without WordPress**
 **The Challenge:** *"We have a 12,000-line class with minified jQuery in the middle. Help."*
 
-**BEFORE: The Stuff of Nightmares (True Story)**
+**BEFORE: The Stuff of Nightmares (Stories Untold)**
 ```php
-// *PTSD flashbacks intensify*
+// *PTSD flashbacks intensifies*
 class Everything_Manager {
     public function do_everything($what = null, $how = null, $when = 'now', $why = 'because') {
         global $wpdb, $wp_query, $post, $current_user, $woocommerce; // All the globals!
@@ -535,7 +535,7 @@ class Everything_Manager {
             
             $wpdb->insert($wpdb->users, ['user_login' => $_POST['username']]);
             
-            // And yes, minified jQuery in the middle of PHP (I survived this)
+            // And yes, minified jQuery in the middle of PHP (I survived this), and yes his example code is 100x cleaner.
             echo '<script>$(document).ready(function(){$("#thing").click(function(){$.post("ajax.php",{action:"thing"})});});</script>';
         }
         
