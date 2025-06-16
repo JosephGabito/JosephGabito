@@ -10,9 +10,10 @@ I'm a software engineer with 16+ years of formal experience (20+ if you include 
 
 ---
 
-## **🍽️ Case Studies: From Dumpster Fire to Michelin Star**
+#### Disclaimer: 
+These patterns are for when your plugin needs its own DevOp and a support hotline. If you're just making a straight forward widget, maybe don't summon the Abstract Factory Dependency Injection Overlords for something solved by add_action('init', 'my_cool_function').
 
-"These patterns are for when your plugin needs its own DevOps team and a support hotline. If you're just making a ‘Hello World’ widget, maybe don’t summon the Abstract Factory Dependency Injection Overlords for something solved by add_action('init', 'my_cool_function')."
+## **🍽️ Case Studies: From Dumpster Fire to Michelin Star**
 
 ### **🌟🌟🌟 Case Study #1: Multi-Provider AI Framework**
 **The Challenge:** *"We need OpenAI, Claude, Gemini, Cohere, Hugging Face, Replicate, Together AI, and Perplexity. Timeline? Three days."*
