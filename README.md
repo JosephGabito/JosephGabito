@@ -12,6 +12,8 @@ I'm a software engineer with 16+ years of formal experience (20+ if you include 
 
 ## **🍽️ Case Studies: From Dumpster Fire to Michelin Star**
 
+"These patterns are for when your plugin needs its own DevOps team and a support hotline. If you're just making a ‘Hello World’ widget, maybe don’t summon the Abstract Factory Dependency Injection Overlords for something solved by add_action('init', 'my_cool_function')."
+
 ### **🌟🌟🌟 Case Study #1: Multi-Provider AI Framework**
 **The Challenge:** *"We need OpenAI, Claude, Gemini, Cohere, Hugging Face, Replicate, Together AI, and Perplexity. Timeline? Three days."*
 
@@ -488,8 +490,6 @@ add_filter('subscription_pricing_calculated', function($pricing_data, $user_id, 
 ✅ **Clear extension points** - third-parties know exactly where to hook  
 ✅ **Debuggable** - pricing logic traceable without filter archaeology  
 ✅ **Testable** - mock repositories, test business rules in isolation
-
-> **💡 Architectural Disclaimer:** These patterns are for complex, multi-feature plugins and enterprise applications. If you're building a simple contact form or basic widget, WordPress's standard approaches work perfectly fine! The key is matching architectural complexity to project scope - don't over-engineer a screwdriver when you need a screwdriver, but don't use a screwdriver to build a skyscraper. 🏗️
 
 **AFTER: Clean Architecture with Strategic WordPress Adapter**
 ```php
