@@ -2,8 +2,7 @@
 
 I'm a software engineer with 16+ years of formal experience (20+ if you include all those self-inflicted all-nighters) turning WordPress plugins from spaghetti nightmares into clean, testable masterpieces. I specialize in Domain-Driven Design, Clean Architecture, and Event Sourcing, basically, giving legacy code the therapy it desperately needs.
 
-![banner3](https://github.com/user-attachments/assets/9cf9a586-56b9-43b7-8b0f-10434c183fc1)
-
+![banner4](https://github.com/user-attachments/assets/25f74e9d-7ee9-4125-b38d-b94a8fdd848f)
 
 #### <small> I've seen WordPress plugins with better architecture than this... said no one ever." (drops mic made of recycled global $wpdb objects) 🎤 </small>
 
@@ -353,56 +352,144 @@ namespace SubscriptionManagement\Application {
 ### **💀 Case Study #4: Filter Abuse Recovery Program**
 **The Challenge:** *"Our codebase has 847 filters and debugging feels like archaeological excavation."*
 
-**BEFORE: "Filter Hell - Every Function Call is a Hook"**
+**BEFORE: "Self-Hooking Madness - Everyone Hooks Into Everything"**
 ```php
-// The nightmare of unnecessary filter indirection
-class Subscription_Service {
-    public function create_subscription($user_id, $plan_id) {
-        // Why call a function when you can add unnecessary complexity?
-        $user = apply_filters('subscription_get_user', null, $user_id);
-        // Other 80 lines of code here with existential crisis
-        $plan = apply_filters('subscription_get_plan', null, $plan_id);
+// Core business logic polluted with filter registration
+class Subscription_Pricing {
+    public function calculate_total($user, $plan) {
+        // Pure business logic... or is it? 🤔
+        $price = $plan->base_price;
         
-        // Business logic drowned in hooks
-        $validation_result = apply_filters('subscription_validate_user', true, $user, $plan);
-        if (!$validation_result) {
-            return apply_filters('subscription_validation_failed', false, $user, $plan);
-        }
+        // Why call methods when you can create filter chaos?
+        $price = apply_filters('modify_base_price', $price, $user, $plan);
+        $tax = apply_filters('calculate_tax', 0, $price, $user);
         
-        // Even simple calculations become filter chains
-        $price = apply_filters('subscription_calculate_price', $plan->price, $user, $plan);
-        // 100 lines of tax calculation here
-        $tax = apply_filters('subscription_calculate_tax', 0, $price, $user);
-
-        // Yet dozen another lines total here.
-        $total = apply_filters('subscription_calculate_total', $price + $tax, $price, $tax);
-        
-        // Core business logic lost in filter soup
-        do_action('subscription_before_payment', $user, $plan, $total);
-        $payment_result = apply_filters('subscription_process_payment', null, $user, $total);
-        do_action('subscription_after_payment', $payment_result);
-        
-        if (apply_filters('subscription_payment_successful', $payment_result->success, $payment_result)) {
-            do_action('subscription_before_create', $user, $plan);
-            $subscription = apply_filters('subscription_create', null, $user, $plan);
-            do_action('subscription_after_create', $subscription);
-            
-            return apply_filters('subscription_creation_result', $subscription, $user, $plan);
-        }
-        
-        return apply_filters('subscription_payment_failed', false, $payment_result);
+        return $price + $tax;
     }
 }
 
-// Debugging nightmare: trace through 20+ filter calls to find the bug
-function debug_subscription_issue() {
-    // Step 1: Check which filter modified the user
-    // Step 2: Check which filter modified the plan  
-    // Step 3: Check which filter modified the validation
-    // Step 4: Check which filter modified the price
-    // Step 5: Give up and cry
+// Marketing team hooks into business logic (because reasons)
+class Marketing_Discounts {
+    public function __construct() {
+        add_filter('modify_base_price', [$this, 'apply_flash_sale'], 10, 3);
+    }
+    
+    public function apply_flash_sale($price, $user, $plan) {
+        return $this->is_flash_sale_active() ? $price * 0.8 : $price;
+    }
+}
+
+// Accounting team also hooks in (spreadsheet warriors unite!)
+class Tax_Calculator {
+    public function __construct() {
+        add_filter('calculate_tax', [$this, 'add_sales_tax'], 10, 3);
+        add_filter('modify_base_price', [$this, 'add_handling_fee'], 20, 3);
+    }
+    
+    public function add_sales_tax($tax, $price, $user) {
+        return $price * 0.08; // 8% tax
+    }
+    
+    public function add_handling_fee($price, $user, $plan) {
+        return $price + 2.99; // $2.99 handling (because why not?)
+    }
+}
+
+// Third-party plugin joins the party (chaos intensifies)
+add_filter('modify_base_price', function($price, $user, $plan) {
+    // Some plugin decides to mess with pricing
+    return $user->is_vip() ? $price * 0.5 : $price;
+}, 15, 3);
+
+// Debugging this nightmare:
+function debug_pricing() {
+    // Step 1: Base price $100
+    // Step 2: Flash sale makes it $80 (priority 10)
+    // Step 3: VIP discount makes it $40 (priority 15) 
+    // Step 4: Handling fee makes it $42.99 (priority 20)
+    // Step 5: Tax calculation on $42.99 = $3.44
+    // Step 6: Total somehow becomes $46.43
+    // Step 7: Customer complains, nobody knows why
+    // Step 8: Blame WordPress 🤷‍♂️
 }
 ```
+
+**AFTER: "Strategic Filters - Clean Boundaries & Clear Intent"**
+```php
+// Pure domain logic - no WordPress coupling
+namespace Pricing\Domain {
+    class Subscription_Pricing_Service {
+        public function __construct(
+            private Discount_Service $discounts,
+            private Tax_Service $taxes
+        ) {}
+        
+        public function calculate_total(User $user, Plan $plan): Price_Breakdown {
+            $base_price = $plan->base_price;
+            
+            // Clean, testable business logic
+            $discounted_price = $this->discounts->apply_discounts($user, $base_price);
+            $tax_amount = $this->taxes->calculate_tax($discounted_price, $user->billing_address);
+            
+            return new Price_Breakdown($base_price, $discounted_price, $tax_amount);
+        }
+    }
+}
+
+// WordPress Adapter - THIS is where filters belong
+namespace Pricing\Infrastructure {
+    class WP_Pricing_Adapter {
+        public function __construct(private Subscription_Pricing_Service $service) {}
+        
+        public function calculate_subscription_price($user_id, $plan_id): array {
+            $user = $this->user_repository->find($user_id);
+            $plan = $this->plan_repository->find($plan_id);
+            
+            $pricing = $this->service->calculate_total($user, $plan);
+            
+            // Strategic filter: Allow third-parties to modify final pricing
+            $pricing_data = apply_filters('subscription_pricing_calculated', [
+                'base_price' => $pricing->base_price,
+                'discounted_price' => $pricing->discounted_price,
+                'tax_amount' => $pricing->tax_amount,
+                'total' => $pricing->total
+            ], $user_id, $plan_id);
+            
+            return $pricing_data;
+        }
+    }
+}
+
+// WordPress Integration - minimal hooks
+class Pricing_Integration {
+    public function register_hooks(): void {
+        // ONE strategic hook for AJAX pricing requests
+        add_action('wp_ajax_calculate_pricing', [$this->adapter, 'handle_pricing_request']);
+        
+        // ONE strategic filter for checkout integration
+        add_filter('woocommerce_cart_item_price', [$this, 'display_subscription_price'], 10, 2);
+    }
+}
+
+// Third-party plugins hook into clean extension points
+add_filter('subscription_pricing_calculated', function($pricing_data, $user_id, $plan_id) {
+    // Clean, documented extension point
+    if (user_is_vip($user_id)) {
+        $pricing_data['discounted_price'] *= 0.9; // 10% VIP discount
+        $pricing_data['total'] = $pricing_data['discounted_price'] + $pricing_data['tax_amount'];
+    }
+    return $pricing_data;
+}, 10, 3);
+```
+
+**The Strategic Filter Philosophy:**
+✅ **Business logic stays pure** - no WordPress in domain layer  
+✅ **1 thoughtful filter** vs scattered hooks everywhere  
+✅ **Clear extension points** - third-parties know exactly where to hook  
+✅ **Debuggable** - pricing logic traceable without filter archaeology  
+✅ **Testable** - mock repositories, test business rules in isolation
+
+> **💡 Architectural Disclaimer:** These patterns are for complex, multi-feature plugins and enterprise applications. If you're building a simple contact form or basic widget, WordPress's standard approaches work perfectly fine! The key is matching architectural complexity to project scope - don't over-engineer a screwdriver when you need a screwdriver, but don't use a screwdriver to build a skyscraper. 🏗️
 
 **AFTER: Clean Architecture with Strategic WordPress Adapter**
 ```php
@@ -519,6 +606,10 @@ class Subscription_Integration {
 - 🔧 **Maintenance burden** - every filter must be documented and tested
 
 **Results:** ✅ **Reduced filters from 847 to 12** ✅ **50% faster debugging** ✅ **Business logic testable without WordPress**
+
+---
+
+### **💻 Case Study #5: The 12,000-Line Monster Class**
 **The Challenge:** *"We have a 12,000-line class with minified jQuery in the middle. Help."*
 
 **BEFORE: The Stuff of Nightmares (Stories Untold)**
@@ -535,7 +626,7 @@ class Everything_Manager {
             
             $wpdb->insert($wpdb->users, ['user_login' => $_POST['username']]);
             
-            // And yes, minified jQuery in the middle of PHP (I survived this), and yes his example code is 100x cleaner.
+            // And yes, minified jQuery in the middle of PHP (I survived this)
             echo '<script>$(document).ready(function(){$("#thing").click(function(){$.post("ajax.php",{action:"thing"})});});</script>';
         }
         
