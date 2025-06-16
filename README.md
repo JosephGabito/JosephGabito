@@ -205,24 +205,6 @@ function handle_subscription_signup() {
         }
     }
 }
-
-// Renewal logic in a different file with global dependencies
-function process_subscription_renewals() {
-    global $wpdb;
-    
-    $due_subscriptions = $wpdb->get_results(
-        "SELECT * FROM {$wpdb->prefix}subscriptions WHERE next_billing <= NOW() AND status = 'active'"
-    );
-    
-    foreach ($due_subscriptions as $subscription) {
-        // Payment method logic duplicated again
-        $user_meta = get_user_meta($subscription->user_id, 'payment_method', true);
-        
-        if ($user_meta === 'stripe') {
-            // Another copy of Stripe logic
-        }
-    }
-}
 ```
 
 **AFTER: Simple SOLID Design That Actually Works**
@@ -234,15 +216,6 @@ namespace SubscriptionManagement\Domain {
     final class Subscription_ID {
         public function __construct(private string $id) {}
         public function value(): string { return $this->id; }
-    }
-    
-    final class Money {
-        public function __construct(
-            private float $amount,
-            private Currency $currency
-        ) {}
-        
-        public function is_free(): bool { return $this->amount === 0.0; }
     }
     
     // Domain entity with business rules
@@ -271,30 +244,6 @@ namespace SubscriptionManagement\Domain {
         public function cancel(): void {
             $this->status = Subscription_Status::cancelled();
             $this->record_event(new Subscription_Cancelled_Event($this->id));
-        }
-        
-        private function is_due_for_renewal(): bool {
-            return $this->next_billing_date <= new \DateTimeImmutable();
-        }
-    }
-}
-
-namespace Payment\Domain {
-    // Payment processing completely separate from subscriptions
-    interface Payment_Gateway_Interface {
-        public function charge(Payment_Request $request): Payment_Result;
-        public function create_recurring_payment(Recurring_Payment_Request $request): Payment_Result;
-    }
-    
-    class Stripe_Gateway implements Payment_Gateway_Interface {
-        public function charge(Payment_Request $request): Payment_Result {
-            // Clean, focused payment logic
-        }
-    }
-    
-    class PayPal_Gateway implements Payment_Gateway_Interface {
-        public function charge(Payment_Request $request): Payment_Result {
-            // Same interface, different implementation
         }
     }
 }
@@ -492,119 +441,7 @@ add_filter('subscription_pricing_calculated', function($pricing_data, $user_id, 
 ✅ **Debuggable** - pricing logic traceable without filter archaeology  
 ✅ **Testable** - mock repositories, test business rules in isolation
 
-**AFTER: Clean Architecture with Strategic WordPress Adapter**
-```php
-// Pure business logic - no WordPress coupling
-namespace SubscriptionManagement\Domain {
-    class Subscription_Creation_Service {
-        public function __construct(
-            private User_Repository $users,
-            private Plan_Repository $plans,
-            private Payment_Service $payments,
-            private Subscription_Repository $subscriptions
-        ) {}
-        
-        public function create_subscription(Create_Subscription_Command $command): Subscription_Result {
-            // Pure business logic - direct function calls
-            $user = $this->users->find($command->user_id);
-            $plan = $this->plans->find($command->plan_id);
-            
-            // Domain validation
-            if (!$this->can_user_subscribe($user, $plan)) {
-                return Subscription_Result::validation_failed('User cannot subscribe to this plan');
-            }
-            
-            // Price calculation in domain service
-            $pricing = $this->pricing_service->calculate_subscription_cost($user, $plan);
-            
-            // Process payment
-            $payment_result = $this->payments->process_payment($pricing->total, $user->payment_method);
-            
-            if ($payment_result->failed()) {
-                return Subscription_Result::payment_failed($payment_result->error);
-            }
-            
-            // Create subscription
-            $subscription = Subscription::create($user, $plan, $payment_result);
-            $this->subscriptions->save($subscription);
-            
-            return Subscription_Result::success($subscription);
-        }
-    }
-}
-
-// WordPress Adapter Layer - Strategic Filter Placement
-namespace SubscriptionManagement\Infrastructure\WordPress {
-    class WP_Subscription_Adapter {
-        public function __construct(private Subscription_Creation_Service $service) {}
-        
-        public function handle_subscription_request(): void {
-            // WordPress layer - THIS is where filters belong
-            $command = $this->build_command_from_request();
-            
-            // Strategic filter: Allow modification of command before processing
-            $command = apply_filters('automator_subscription_command', $command);
-            
-            $result = $this->service->create_subscription($command);
-            
-            if ($result->successful()) {
-                // Strategic filter: Allow third-parties to react to success
-                do_action('automator_subscription_created', $result->subscription, $command);
-                
-                // Strategic filter: Allow modification of success response
-                $response = apply_filters('automator_subscription_success_response', [
-                    'success' => true,
-                    'subscription_id' => $result->subscription->id
-                ], $result);
-                
-            } else {
-                // Strategic filter: Allow third-parties to handle failures
-                do_action('automator_subscription_failed', $result->error, $command);
-                
-                $response = apply_filters('automator_subscription_error_response', [
-                    'success' => false,
-                    'error' => $result->error
-                ], $result);
-            }
-            
-            wp_send_json($response);
-        }
-        
-        private function build_command_from_request(): Create_Subscription_Command {
-            // Convert WordPress request to domain command
-            return new Create_Subscription_Command(
-                user_id: get_current_user_id(),
-                plan_id: sanitize_text_field($_POST['plan_id']),
-                payment_method: sanitize_text_field($_POST['payment_method'])
-            );
-        }
-    }
-}
-
-// Clean integration with WordPress
-class Subscription_Integration {
-    public function __construct(private WP_Subscription_Adapter $adapter) {}
-    
-    public function register_hooks(): void {
-        // Only ONE WordPress hook needed
-        add_action('wp_ajax_create_subscription', [$this->adapter, 'handle_subscription_request']);
-    }
-}
-```
-
-**The Strategic Filter Philosophy:**
-✅ **3 thoughtful filters** vs 847 random ones  
-✅ **WordPress layer only** - business logic stays pure  
-✅ **Clear extension points** - third-parties know where to hook  
-✅ **Maintainable** - each filter has a specific purpose  
-✅ **Debuggable** - direct function calls in business logic  
-
-**Why Every Filter is a Liability:**
-- 🔍 **Debugging complexity** - trace through filter chains
-- 🐛 **Hidden dependencies** - filters can break other filters  
-- ⚡ **Performance overhead** - unnecessary indirection
-- 📚 **Cognitive load** - developers must understand entire filter ecosystem
-- 🔧 **Maintenance burden** - every filter must be documented and tested
+> **💡 Architectural Disclaimer:** These patterns are for complex, multi-feature plugins and enterprise applications. If you're building a simple contact form or basic widget, WordPress's standard approaches work perfectly fine! The key is matching architectural complexity to project scope - don't over-engineer a screwdriver when you need a screwdriver, but don't use a screwdriver to build a skyscraper. 🏗️
 
 **Results:** ✅ **Reduced filters from 847 to 12** ✅ **50% faster debugging** ✅ **Business logic testable without WordPress**
 
@@ -689,7 +526,7 @@ class User_Registration_Workflow {
 - **Languages:** PHP · Python · JS/TS · SQL · React · LitElement  
 - **Frameworks:** WordPress · FastAPI · Next.js · Celery · Redis · Docker  
 - **Architecture:** DDD · CQRS · Event Sourcing · Clean Architecture  
-- **AI & Data:** OpenAI · Claude · Grok · RAG pipelines · Hugging Face  
+- **AI & Data:** OpenAI · Claude · Grok · Hugging Face · Name your AI, I got it · RAG pipelines · Looker Studio · BigQuery · Google Cloud Storage   
 
 ---
 
