@@ -11,7 +11,7 @@ I'm a software engineer with 16+ years of formal experience (20+ if you include 
 ---
 
 💡 Architectural Disclaimer
-> These patterns are for when your plugin needs its own DevOp and a support hotline. If you're just making a straightforward widget, maybe don't summon the Abstract Factory Dependency Injection Overlords for something solved by add_action('init', 'my_cool_function').
+> These patterns are for when your plugin needs its own DevOps and a support hotline. If you're just making a straightforward widget, maybe don't summon the Abstract Factory Dependency Injection Overlords for something solved by add_action('init', 'my_cool_function').
 
 ## **🍽️ Case Studies: From Dumpster Fire to Michelin Star**
 
