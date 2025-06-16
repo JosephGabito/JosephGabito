@@ -2,7 +2,8 @@
 
 I'm a software engineer with 16+ years of formal experience (20+ if you include all those self-inflicted all-nighters) turning WordPress plugins from spaghetti nightmares into clean, testable masterpieces. I specialize in Domain-Driven Design, Clean Architecture, and Event Sourcing, basically, giving legacy code the therapy it desperately needs.
 
-![GHBanner](https://github.com/user-attachments/assets/1eb3fa93-16ea-4ce6-8a9a-c1cb69d5d71c)
+![banner3](https://github.com/user-attachments/assets/9cf9a586-56b9-43b7-8b0f-10434c183fc1)
+
 
 #### <small> I've seen WordPress plugins with better architecture than this... said no one ever." (drops mic made of recycled global $wpdb objects) 🎤 </small>
 
