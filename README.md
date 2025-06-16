@@ -2,7 +2,7 @@
 
 I'm a software engineer with 16+ years of formal experience (20+ if you include all those self-inflicted all-nighters) turning WordPress plugins from spaghetti nightmares into clean, testable masterpieces. I specialize in Domain-Driven Design, Clean Architecture, and Event Sourcing, basically, giving legacy code the therapy it desperately needs.
 
-![Header](https://github.com/user-attachments/assets/d26e0c0e-04d7-4dbb-8bb5-8195729b8692)
+![GHBanner](https://github.com/user-attachments/assets/1eb3fa93-16ea-4ce6-8a9a-c1cb69d5d71c)
 
 #### <small> I've seen WordPress plugins with better architecture than this... said no one ever." (drops mic made of recycled global $wpdb objects) 🎤 </small>
 
@@ -222,7 +222,7 @@ function process_subscription_renewals() {
 }
 ```
 
-**AFTER: Domain-Driven Design That Actually Works**
+**AFTER: Simple SOLID Design That Actually Works**
 ```php
 // Clean domain separation with proper boundaries
 namespace SubscriptionManagement\Domain {
@@ -359,6 +359,7 @@ class Subscription_Service {
     public function create_subscription($user_id, $plan_id) {
         // Why call a function when you can add unnecessary complexity?
         $user = apply_filters('subscription_get_user', null, $user_id);
+        // Other 80 lines of code here with existential crisis
         $plan = apply_filters('subscription_get_plan', null, $plan_id);
         
         // Business logic drowned in hooks
@@ -369,7 +370,10 @@ class Subscription_Service {
         
         // Even simple calculations become filter chains
         $price = apply_filters('subscription_calculate_price', $plan->price, $user, $plan);
+        // 100 lines of tax calculation here
         $tax = apply_filters('subscription_calculate_tax', 0, $price, $user);
+
+        // Yet dozen another lines total here.
         $total = apply_filters('subscription_calculate_total', $price + $tax, $price, $tax);
         
         // Core business logic lost in filter soup
