@@ -1,4 +1,4 @@
-**NVIDIA Certified AI Systems Engineer · Agent Architecture · Backend Infrastructure**
+AI Systems Engineer · Agent Architecture · Distributed Backend Infrastructure
 
 ## About
 
