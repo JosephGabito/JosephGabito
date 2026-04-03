@@ -1,100 +1,85 @@
-## About
+Applied AI engineer building production-grade LLM systems, agents, and AI infrastructure.
 
-I architect production AI systems.
+I work at the boundary of product, architecture, and execution: turning ambiguous business problems into systems that are reliable, observable, and useful in the real world. My focus is not research for its own sake. My focus is applied AI that ships.
 
-For over 16 years, I’ve built scalable backend infrastructure. Today, I design deterministic systems around probabilistic models: multi-agent orchestration platforms, retrieval infrastructure, and distributed execution engines that operate reliably under load.
+## What I do
 
-I don’t build AI demos. I build systems that survive production.
+I design and build:
 
-My work sits at the boundary between stochastic language models and deterministic software architecture. That boundary is where most systems fail and where real engineering matters.
+- Agentic systems with tool use, routing, and orchestration
+- Durable streaming architectures that survive disconnects and resume cleanly
+- Human-in-the-loop approval workflows with strong backend guarantees
+- Provider-agnostic LLM infrastructure with cost, latency, and reliability controls
+- Evaluation-aware systems that improve with feedback instead of vibes
 
-Core domains:
+My background is in backend architecture, distributed systems thinking, and product engineering. I care about correctness, maintainability, and making AI features survive contact with real users.
 
-* Multi-agent orchestration and execution engines
-* Retrieval-Augmented Generation (RAG) infrastructure
-* Distributed task systems and background processing
-* AI evaluation harnesses and reliability tooling
-* Schema-first backend architecture using FastAPI, Celery, Redis, and PostgreSQL
+## Current focus
 
-Generative models are probabilistic.
-Infrastructure must not be.
+Right now I’m focused on building AI systems that are:
 
-## Architecture Focus
+- reliable under failure
+- durable across reconnects and dropped sessions
+- safe around destructive actions
+- measurable in cost, latency, and success rate
+- practical for businesses, not just impressive in demos
 
-### 🧠 Agent Systems
+## Selected engineering themes
 
-* Multi-agent coordination graphs and execution loops
-* Tool routing and structured output enforcement
-* Streaming pipelines with background task isolation
-* Failure recovery, retry policies, and state reconciliation
-* Long-running workflow orchestration
+### Durable agent execution
+I build agent systems where the task is not tied to the browser tab, request lifecycle, or SSE connection. Execution continues independently, and clients can reconnect without losing the state of the run.
 
-Designed to eliminate silent failure modes and nondeterministic behavior in AI-driven systems.
+### Human-in-the-loop safety
+For sensitive actions, I use explicit approval boundaries with atomic backend coordination. This avoids the usual race conditions and double-submit problems that show up in distributed environments.
 
-### 📚 Retrieval Infrastructure
+### Provider-agnostic orchestration
+Models are tools, not religion. I care about capability, latency, stability, and cost. I design systems that can route across providers, evaluate tradeoffs, and keep operating when one vendor degrades.
 
-* Hybrid search pipelines combining sparse and dense retrieval
-* Embedding normalization and scoring strategies
-* Retrieval evaluation using precision, recall, and nDCG
-* FAISS to cuVS experimentation and performance benchmarking
-* Hallucination risk mitigation through retrieval grounding
+### Applied AI over hype
+I’m interested in real systems: agents, workflows, evals, context handling, tool semantics, and production behavior. Not prompt theater.
 
-Built to transform retrieval quality from intuition into measurable signal.
+## Tech stack
 
-### ⚙️ Distributed Backend Systems
+**Languages**  
+Python, PHP, JavaScript, TypeScript, SQL
 
-* Asynchronous task orchestration and worker pools
-* Message brokers and job queues
-* Schema-first API contracts and strict boundaries
-* Observability, tracing, and load diagnostics
-* Deterministic control planes around AI components
+**Backend**  
+FastAPI, Redis, Celery, MySQL, PostgreSQL, SQLAlchemy
 
-Focused on reliability, not novelty.
+**Frontend**  
+Next.js, Lit, React
 
-## Selected Work
+**AI / LLM**  
+Anthropic APIs, OpenAI-compatible APIs, Vertex AI, OpenRouter, vLLM, Hugging Face, RAG pipelines, tool calling, structured outputs, eval loops
 
-### Production Agent Orchestration Platform
+**Architecture**  
+DDD, layered architecture, contract-first APIs, observability, failure-aware system design
 
-Architected and deployed a multi-agent execution system integrating:
+## Principles
 
-* Tool routing
-* RAG context injection
-* Structured outputs
-* Streaming and background processing
-* Failure handling and idempotent retries
+- Clarity over cleverness
+- Reliability over demos
+- Contracts over guesswork
+- Systems that survive failure
+- Small sharp abstractions over magic
+- AI is infrastructure
 
-Built with FastAPI, Celery, Redis, and PostgreSQL.
-Designed for concurrency, resilience, and long-running execution flows.
+## A few things I care about
 
-### RAG Evaluation and Reliability Harness
+I like building boring, mechanical systems that hold up under pressure.
 
-Engineered automated pipelines to:
+I care a lot about architecture, domain boundaries, explicit contracts, and getting the fundamentals right. I’ve spent years building in messy environments, which taught me that elegant systems only matter if they can survive real traffic, real users, and real failure modes.
 
-* Measure retrieval quality
-* Compare embedding and scoring strategies
-* Detect hallucination risk patterns
-* Benchmark latency and system stability under stress
+## Writing and open source
 
-Focused on bridging research metrics with production guarantees.
+I use GitHub to share code, experiments, and systems thinking around:
 
-## Certifications
+- applied AI engineering
+- agents and orchestration
+- reliability patterns for LLM products
+- backend architecture
+- WordPress and product infrastructure
 
-* NVIDIA AI Certified: Generative AI
-* NVIDIA AI Certified: Agentic AI Applications with Large Language Models
-* Codeable Certified WordPress Expert
+## Let’s connect
 
-## Engineering Philosophy
-
-* Explicit over magical
-* Boring systems are better than clever hacks
-* Deterministic boundaries around probabilistic models
-* Clean architecture enables safe iteration
-* Production reliability is the benchmark
-
-## Connect
-
-LinkedIn:
-[https://www.linkedin.com/in/joseph-gabito/](https://www.linkedin.com/in/joseph-gabito/)
-
-Email:
-dsc [dot] official [dot] mail at gmail [dot] com
+If you're working on applied AI, agents, product infrastructure, or production LLM systems, feel free to reach out.
