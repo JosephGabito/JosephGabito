@@ -1,5 +1,5 @@
 
-### Joseph Gabito — AI Systems & Automation Engineer                                                                                                              
+### AI Engineering & Automation                                                                                                              
                                                                                                                                                                     
 **[NVIDIA-Certified: Generative AI LLMs](https://certified.nvidia.com/?search_term=Joseph%20Gabito&page=1)** · Engineering AI agents, MCP infrastructure, and fast backend systems. Currently obsessed with agent orchestration, long-term memory, and context windows.                                     
                                                                                                                                                                   
